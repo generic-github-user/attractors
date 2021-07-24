@@ -8,6 +8,14 @@ class Attractor:
     def __init__(self):
         pass
 
+def rotation_matrix(a):
+    sin = np.sin(a)
+    cos = np.cos(a)
+    R = [
+        [cos, -sin],
+        [sin, cos]
+    ]
+    return np.array(R)
 class RouletteCurve(Attractor):
     def __init__(self, center=[0, 0], num_sections=4, lengths=None, speeds=None, random_distribution='uniform'):
         """
