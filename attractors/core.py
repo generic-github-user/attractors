@@ -16,6 +16,14 @@ def rotation_matrix(a):
         [sin, cos]
     ]
     return np.array(R)
+
+def rotate(a, b, t):
+#         if type(t) in [int, float]:
+#         if isinstance(t, (int, float)):
+    t = rotation_matrix(t)
+
+#         return (rMatrix @ (a - b)) + b
+    return (t @ (a - b)) + b
 class RouletteCurve(Attractor):
     def __init__(self, center=[0, 0], num_sections=4, lengths=None, speeds=None, random_distribution='uniform'):
         """
