@@ -7,3 +7,18 @@ __all__ = ['Attractor', 'RouletteCurve']
 class Attractor:
     def __init__(self):
         pass
+
+class RouletteCurve(Attractor):
+    def __init__(self, center=[0, 0], num_sections=4, lengths=None, speeds=None, random_distribution='uniform'):
+        """
+        Create a new `RouletteCurve` object. This subclasses `Attractor` and describes a process where one or more line segments, connected end-to-end, rotate continuously about their pivots/endpoints. The length of each line segment and the speed at which it rotates are adjustable parameters.
+        """
+        super().__init__()
+        self.random_distribution = getattr(np.random, random_distribution)
+        self.rd = self.random_distribution
+        self.center = np.array(center)
+        self.rank = self.center.size
+        self.angles = np.random.normal(0, 2*math.pi)
+        self.points = []
+        self.canvas = np.zeros([100, 100])
+        self.position = 0
