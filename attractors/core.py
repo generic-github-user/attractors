@@ -69,3 +69,7 @@ class RouletteCurve(Attractor):
             self.pivots_.append(self.pivots.copy())
             self.points.append(self.pivots[-1].copy())
         return self
+
+    @staticmethod
+    def randomize_list(L):
+        return np.array([self.rd(*x) if type(x) in [list, tuple] else x for x in L])
