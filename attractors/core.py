@@ -33,3 +33,39 @@ class RouletteCurve(Attractor):
         self.points = []
         self.canvas = np.zeros([100, 100])
         self.position = 0
+
+    def simulate(self, steps=1):
+        for s in range(steps):
+            last = self.pivots.copy()
+#             for l in list(range(len(self.pivots)))[::-1]:
+            gamma = 0
+            num_pivots = len(self.pivots)
+            for l in list(range(num_pivots)):
+#             theta = 1 * self.speeds
+                theta = 1 * self.speeds[l]
+                rMatrix = [
+                    [np.cos(theta), -np.sin(theta)],
+                    [np.sin(theta), np.cos(theta)]
+                ]
+                rMatrix = np.array(rMatrix)#.swapaxes(0,2)
+                offsets = self.center if l == 0 else last[l-1]#.copy() #?
+                for f in list(range(l+1, num_pivots)):
+    #                 print(s, rMatrix)
+        #             print(self.pivots[:-1].shape)
+    #                 offsets = np.concatenate([self.center[np.newaxis,...], self.pivots[:-1]], axis=0)
+    #                 offsets=np.array(0)
+    #                 len(self.pivots)-1
+    #                 print(offsets)
+        #             print(offsets.shape, rMatrix.shape, self.pivots.shape)
+    #                 self.pivots[l] = (last[l] - offsets) @ rMatrix + offsets
+
+    #                 func of t?
+    #                 delta = (last[l] - offsets) @ rMatrix + offsets
+                    delta = (rMatrix @ (self.pivots[f] - offsets)) + offsets# + gamma
+    #                 print(delta)
+                    gamma += delta
+                    self.pivots[f] = delta
+    #             self.points.append(np.clip(self.pivots[-1], 0, np.array(self.canvas.shape)))
+            self.pivots_.append(self.pivots.copy())
+            self.points.append(self.pivots[-1].copy())
+        return self
