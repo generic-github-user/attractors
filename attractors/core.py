@@ -70,6 +70,28 @@ class RouletteCurve(Attractor):
             self.points.append(self.pivots[-1].copy())
         return self
 
+    def render(self, recenter=True, zoom=None):
+        cshape = np.array(self.canvas.shape)
+        offset = cshape / 2
+        if zoom is None:
+            zoom = np.min(cshape / np.max(np.abs(self.points), axis=0)) * 0.5
+            print(zoom)
+#         for p in self.points.copy():
+        for p in map(np.copy, self.points):
+            p = p.astype(float)
+            p *= zoom
+            if recenter:
+                p += offset
+            p = np.clip(p, 0, np.array(self.canvas.shape)-1)
+            x, y = p.astype(int)
+            self.canvas[x, y] += 1
+#         plt.style.use('fivethirtyeight')
+        plt.style.use('classic')
+        P = plt.imshow(np.flip(self.canvas.T, axis=0), interpolation='none')
+        plt.grid('off')
+        return P
+#         return self
+
     @staticmethod
     def randomize_list(L):
         return np.array([self.rd(*x) if type(x) in [list, tuple] else x for x in L])
