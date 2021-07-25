@@ -40,16 +40,18 @@ class RouletteCurve(Attractor):
         self.rank = self.center.size
 #         use rank?
         if lengths is None:
-            lengths = np.random.normal(0, 1, num_sections)
+            lengths = np.random.uniform(0, 1, num_sections)
         if speeds is None:
             speeds = np.random.normal(0, 1, num_sections)
         self.lengths = RouletteCurve.randomize_list(lengths).astype(float)
         self.speeds = RouletteCurve.randomize_list(speeds).astype(float)
-        self.angles = np.random.normal(0, 2*math.pi)
-        self.pivots = center + np.array([[0, sum(self.lengths[:i])] for i in range(1, len(self.lengths)+1)])
-        self.pivots = self.pivots.astype(float)
+#         self.angles = np.random.normal(0, 2*math.pi, num_sections).astype(float)
+        self.angles = np.zeros(num_sections, dtype=float)
+        self.angles_ = []
+        self.start = center + np.array([[0, sum(self.lengths[:i])] for i in range(1, len(self.lengths)+1)])
+        self.start = self.start.astype(float)
+        self.pivots = self.start.copy()
         self.pivots_ = []
-        print(self.pivots, True)
         self.points = []
         self.canvas = np.zeros([100, 100])
         self.position = 0
