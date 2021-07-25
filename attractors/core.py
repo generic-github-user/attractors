@@ -59,6 +59,11 @@ class RouletteCurve(Attractor):
 
     @nb.jit(forceobj=True)
     def simulate(self, steps=1, clip=True):
+        rMatrices = []
+        for s in self.speeds:
+#             theta = 1 * self.speeds[l]
+            rMatrices.append(rotation_matrix(s))
+
         for s in range(steps):
             last = self.pivots.copy()
 #             for l in list(range(len(self.pivots)))[::-1]:
