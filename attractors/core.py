@@ -114,16 +114,27 @@ class RouletteCurve(Attractor):
         offset = cshape / 2
         if zoom is None:
             zoom = np.min(cshape / np.max(np.abs(self.points), axis=0)) * 0.5
-            print(zoom)
 #         for p in self.points.copy():
-        for p in map(np.copy, self.points):
+        if mode == 'dist':
+#             grid = np.stack(np.meshgrid([np.arange(5.)]*2))
+            grid = np.mgrid[0:5, 0:5]
+            brush = 1 / np.linalg.norm(grid - 2.5, axis=0)
+            print(brush)
+        for i, p in enumerate(map(np.copy, self.points)):
+#             for j, p in enumerate(px):
             p = p.astype(float)
             p *= zoom
             if recenter:
                 p += offset
             p = np.clip(p, 0, np.array(self.canvas.shape)-1)
+            w, h = self.canvas.shape
             x, y = p.astype(int)
-            self.canvas[x, y] += 1
+            if mode == 'pixel':
+                self.canvas[x, y] += 1
+            elif mode == 'dist':
+                x, y = np.clip(x, 5, w-6), np.clip(y, 5, h-6)
+                self.canvas[x-2:x+3, y-2:y+3] += brush
+#                 self.canvas[x, y] = j+1
 #         plt.style.use('fivethirtyeight')
         plt.style.use('classic')
         P = plt.imshow(np.flip(self.canvas.T, axis=0), interpolation='none')
