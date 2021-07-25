@@ -71,14 +71,10 @@ class RouletteCurve(Attractor):
             num_pivots = len(self.pivots)
             for l in list(range(num_pivots)):
 #             theta = 1 * self.speeds
-                theta = 1 * self.speeds[l]
-                rMatrix = [
-                    [np.cos(theta), -np.sin(theta)],
-                    [np.sin(theta), np.cos(theta)]
-                ]
-                rMatrix = np.array(rMatrix)#.swapaxes(0,2)
+                rMatrix = rMatrices[l]
+#                 rMatrix = np.array(rMatrix)#.swapaxes(0,2)
                 offsets = self.center if l == 0 else last[l-1]#.copy() #?
-                for f in list(range(l+1, num_pivots)):
+#                 for f in list(range(l, num_pivots)):
     #                 print(s, rMatrix)
         #             print(self.pivots[:-1].shape)
     #                 offsets = np.concatenate([self.center[np.newaxis,...], self.pivots[:-1]], axis=0)
@@ -90,11 +86,24 @@ class RouletteCurve(Attractor):
 
     #                 func of t?
     #                 delta = (last[l] - offsets) @ rMatrix + offsets
-                    delta = (rMatrix @ (self.pivots[f] - offsets)) + offsets# + gamma
+#                     delta = (rMatrix @ (self.pivots[f] - offsets)) + offsets# + gamma
     #                 print(delta)
-                    gamma += delta
-                    self.pivots[f] = delta
+#                     gamma += delta
+#                     self.pivots[f] = delta
+
+                self.angles[l:] += self.speeds[l]
+                if clip:
+                    self.angles[l:] %= 2 * math.pi
+                self.angles_.append(self.angles.copy())
+
     #             self.points.append(np.clip(self.pivots[-1], 0, np.array(self.canvas.shape)))
+#     sequencemethod
+
+            prev = rotate(self.start[0], self.center, self.angles[0])
+            for p in range(1, num_pivots):
+#                 print(p, prev)
+                self.pivots[p] = rotate(self.start[p], self.center, self.angles[p]) + prev
+                prev = self.pivots[p]
             self.pivots_.append(self.pivots.copy())
             self.points.append(self.pivots[-1].copy())
         return self
