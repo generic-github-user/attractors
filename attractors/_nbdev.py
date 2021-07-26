@@ -3,8 +3,11 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"Attractor": "00_attractor.ipynb",
+         "IteratedFunctionSystem": "00_attractor.ipynb",
          "rotation_matrix": "00_attractor.ipynb",
          "rotate": "00_attractor.ipynb",
+         "simulate_accelerated": "00_attractor.ipynb",
+         "line": "00_attractor.ipynb",
          "RouletteCurve": "00_attractor.ipynb"}
 
 modules = ["core.py"]
