@@ -223,6 +223,10 @@ class RouletteCurve(Attractor):
         - `axis`: A Matplotlib axis to render the finished image to (if one is not provided, it will be created)
         - `zoom`: A scaling factor by which to resize points relative to the `center` before rendering
         - `mode`: `str`, one of `pixel`, `dist`/`brush`, `line`, or `hist`
+            -     `pixel`: Convert each point coordinate to the (integer) coordinate of the nearest pixel
+            -     `dist`: Generate a "brush" based on a distance function relative to the point coordinates, then (for each point) paint this over a region of the canvas centered on that point
+            -     `line`: Draw a line from the last rendered point to the current one (helpful for reducing the total number of points that must be rendered)
+            -     `hist`: Generate a 2D histogram using NumPy and display this (similar to `pixel`)
         - `blending`: `str`, one of `set`, `add`, or `mul`; how the new pixel value (while rendering a point) should be combined with the current one
         - `cmap`: `random` or a Matplotlib colormap; the colormap to pass to `imshow` - if `random`, one will be selected from the sequential colormaps listed in `RouletteCurve().cmaps`
         - `point_value`
