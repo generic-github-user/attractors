@@ -157,8 +157,6 @@ class RouletteCurve(Attractor):
         self.points = np.zeros([1, 2])
         return self
 
-    @nb.jit(forceobj=True)
-    def simulate(self, steps=1, clip=True):
     def get_state(self):
         """
         Internal/helper function; gets current values of this instance's speeds, pivots, angles, etc. as a dictionary (mainly for use in typed functions like simulate_accelerated)
@@ -193,6 +191,21 @@ class RouletteCurve(Attractor):
             self.points = simulate_accelerated(**sim_args)
 
         return self
+
+#     @nb.jit#(forceobj=True)
+    def simulate(self, steps=None, render_each=None, render_settings={}, clip=True, duration=None, timecheck_frequency=100, live_rendering=True):
+        """
+        Simulate the system by calculating the position of each point from data about the preceding points, and updating the internal state accordingly.
+
+        - `steps`: (optional) integer >=1; the number of timesteps to simulate
+        - `render_each`: (optional) integer >=1 representing how many steps to run before re-rendering the simulation result
+        - `render_settings`: (optional) a `dictionary` that will be passed to `render` if using `render_each`
+        - `clip`: `boolean`; whether to limit the maximum angle of each section (if `True`, the values will wrap around to 0; defaults to `True`)
+        - `duration`: `float` or `int` >0; the maximum length of time, in seconds, to run the simulation for; if `steps` is not provided, the simulation will run until this amount of time has elapsed
+        - `timecheck_frequency`: Not yet documented
+        - `live_rendering`: Not yet documented
+        """
+        self.live_rendering = live_rendering
         rMatrices = []
         for s in self.speeds:
 #             theta = 1 * self.speeds[l]
