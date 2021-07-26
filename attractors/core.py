@@ -84,6 +84,15 @@ class RouletteCurve(Attractor):
         self.points = []
         self.canvas = np.zeros([100, 100])
         self.position = 0
+        self.zoom = 10
+        self.N = 0
+        self.live_rendering = False
+
+#         See colormaps by category at https://matplotlib.org/stable/tutorials/colors/colormaps.html; used here are the "sequential" cmaps and a few others
+        self.cmaps = ['inferno', 'plasma', 'rainbow', 'hot', 'cool', 'autumn', 'winter', 'summer'] + [
+            'Greys', 'Purples', 'Blues', 'Greens', 'Oranges', 'Reds',
+            'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
+            'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
 
 
     @nb.jit(forceobj=True)
