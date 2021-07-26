@@ -33,6 +33,8 @@ def rotation_matrix(a):
     ]
     return np.array(R)
 
+# Cell
+
 @nb.njit
 def rotate(a, b, t):
 #         if type(t) in [int, float]:
@@ -102,13 +104,13 @@ class RouletteCurve(Attractor):
         super().__init__()
         self.random_distribution = getattr(np.random, random_distribution)
         self.rd = self.random_distribution
-        self.center = np.array(center)
+        self.center = np.array(center, dtype=float)
         self.rank = self.center.size
 #         use rank?
         if lengths is None:
-            lengths = np.random.uniform(0, 1, num_sections)
+            lengths = np.random.uniform(-2, 2, num_sections)
         if speeds is None:
-            speeds = np.random.normal(0, 1, num_sections)
+            speeds = np.random.normal(0, 2, num_sections)
         self.lengths = RouletteCurve.randomize_list(lengths).astype(float)
         self.speeds = RouletteCurve.randomize_list(speeds).astype(float)
 #         self.angles = np.random.normal(0, 2*math.pi, num_sections).astype(float)
@@ -118,7 +120,8 @@ class RouletteCurve(Attractor):
         self.start = self.start.astype(float)
         self.pivots = self.start.copy()
         self.pivots_ = []
-        self.points = []
+#         self.points = []
+        self.points = np.zeros([1, 2])
         self.canvas = np.zeros([100, 100])
         self.position = 0
 
