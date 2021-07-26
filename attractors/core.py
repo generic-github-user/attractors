@@ -97,7 +97,9 @@ class RouletteCurve(Attractor):
         self.points = []
         self.canvas = np.zeros([100, 100])
         self.position = 0
+
         self.zoom = 10
+        self.offset = 0
         self.N = 0
         self.live_rendering = False
 
@@ -177,9 +179,11 @@ class RouletteCurve(Attractor):
 #     @nb.jit(forceobj=True)
     def render(self, recenter=True, zoom=None, mode='dist'):
         cshape = np.array(self.canvas.shape)
-        offset = cshape / 2
-        if zoom is None:
-            zoom = np.min(cshape / np.max(np.abs(self.points), axis=0)) * 0.5
+        self.offset = cshape / 2
+        if not self.live_rendering:# and (self.points):
+            if zoom is None:
+                zoom = np.min(cshape / np.max(np.abs(self.points), axis=0)) * 0.5
+            self.zoom = zoom
 #         for p in self.points.copy():
         if mode == 'dist':
 #             grid = np.stack(np.meshgrid([np.arange(5.)]*2))
