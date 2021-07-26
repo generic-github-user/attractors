@@ -72,6 +72,28 @@ def simulate_accelerated(speeds, pivots, center, angles, start, points, steps=10
 # Cell
 
 # @nb.jit
+def line(start, stop, bg, width=1., quality=5.):
+#     if bg is None:
+#         bg = np.zeros((50, 50))
+#     start = np.array(start, dtype=float)
+#     stop = np.array(stop, dtype=float)
+    quality *= np.linalg.norm(np.subtract(stop, start))
+    lin = np.linspace(0, 1, round(quality))
+#     coords = np.stack([[np.interp(lin, [0,1], [0, p[i]]) for p in [start, stop]] for i in range(0, 2)]).T
+#     j = []
+#     for i in range(0, 2):
+#         j.append(np.interp(lin, [0,1], [start[i], stop[i]]))
+    j = [np.interp(lin, [0,1], [start[i], stop[i]]) for i in [0, 1]]
+    coords = np.stack(j).T
+    for pos in coords:
+        x, y = pos#.astype(int)
+        w = width/2
+        bg[round(x-w):round(x+w), round(y-w):round(y+w)] += 1
+    return bg
+
+# Cell
+
+# @nb.jit
 class RouletteCurve(Attractor):
     def __init__(self, center=[0, 0], num_sections=4, lengths=None, speeds=None, random_distribution='uniform'):
         """
