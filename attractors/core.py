@@ -205,6 +205,7 @@ class RouletteCurve(Attractor):
         - `timecheck_frequency`: Not yet documented
         - `live_rendering`: Not yet documented
         """
+
         self.live_rendering = live_rendering
         start_time = time.time()
         rMatrices = []
@@ -267,7 +268,18 @@ class RouletteCurve(Attractor):
             if render_each is not None:
                 if s % render_each == 0:
                     self.render(**render_settings)
+
+            if (duration is not None) and s % timecheck_frequency == 0:
+                elapsed = time.time() - start_time
+                if elapsed > duration:
+#                     make a function for this?
+                    comp = f'; {round(s / steps * 100, 3)}% complete)' if steps else ''
+                    g = 'Terminating simulation early' if steps else 'Ending simulation'
+                    print(f'{g} after {s+1} steps ({round(elapsed, 3)} seconds elapsed)' + comp)
+                    break
+            s += 1
         self.N = s
+        print(f'Finished simulating {steps or s+1} steps in {round(elapsed, 3)} seconds')
         return self
         return self
 
