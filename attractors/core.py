@@ -281,6 +281,33 @@ class RouletteCurve(Attractor):
         self.N = s
         print(f'Finished simulating {steps or s+1} steps in {round(elapsed, 3)} seconds')
         return self
+
+    def transform_point(self, p):
+        p = p.astype(float)
+        p *= self.zoom
+#         if recenter:
+        p += self.offset
+        p = np.clip(p, 0, np.array(self.canvas.shape)-1)
+        return p
+
+    def draw_point(self, p, mode, blending='add', brush=None):
+        if type(p) is int:
+            prev = self.points[p-1]
+            prev = self.transform_point(prev)
+            p = self.points[p]
+        p = self.transform_point(p)
+        w, h = self.canvas.shape
+        x, y = p.astype(int)
+        if mode == 'pixel':
+            if blending == 'set':
+                self.canvas[x, y] = 1
+            elif blending == 'add':
+                self.canvas[x, y] += 1
+        elif mode in ['dist', 'brush']:
+            x, y = np.clip(x, 5, w-6), np.clip(y, 5, h-6)
+            self.canvas[x-2:x+3, y-2:y+3] += brush
+        elif mode in ['line']:
+            self.canvas = line(prev, p, self.canvas)
         return self
 
 #     @nb.jit(forceobj=True)
@@ -313,27 +340,48 @@ class RouletteCurve(Attractor):
         if mode == 'dist':
 #             grid = np.stack(np.meshgrid([np.arange(5.)]*2))
             grid = np.mgrid[0:5, 0:5]
-            brush = 1 / np.linalg.norm(grid - 2.5, axis=0)
+            brush = 1 / np.linalg.norm(grid - 2.5, axis=0, ord=falloff)
             print(brush)
-        for i, p in enumerate(map(np.copy, self.points)):
-#             for j, p in enumerate(px):
-            p = p.astype(float)
-            p *= zoom
-            if recenter:
-                p += offset
-            p = np.clip(p, 0, np.array(self.canvas.shape)-1)
-            w, h = self.canvas.shape
-            x, y = p.astype(int)
-            if mode == 'pixel':
-                self.canvas[x, y] += 1
-            elif mode == 'dist':
-                x, y = np.clip(x, 5, w-6), np.clip(y, 5, h-6)
-                self.canvas[x-2:x+3, y-2:y+3] += brush
-#                 self.canvas[x, y] = j+1
-#         plt.style.use('fivethirtyeight')
-        plt.style.use('classic')
-        P = plt.imshow(np.flip(self.canvas.T, axis=0), interpolation='none')
-        plt.grid('off')
+
+        if not self.live_rendering:
+            if mode == 'hist':
+                self.canvas = np.histogram2d(*np.array(self.points).T, **hist_args)[0]
+#                 self.canvas *= point_value
+                if blending == 'set':
+    #                 self.canvas = np.power(self.canvas, 0)
+                    self.canvas[self.canvas != 0] = point_value
+                elif blending == 'mul':
+                    self.canvas = point_value ** self.canvas
+            else:
+                if mode in ['line']:
+                    for i in range(1, len(self.points)):
+#                         self.canvas = line(self.points[i-1], self.points[i], self.canvas)
+                        self.draw_point(i, mode=mode)
+                else:
+                    for i, p in enumerate(map(np.copy, self.points)):
+            #             for j, p in enumerate(px):
+                        if mode in ['dist', 'brush']:
+                            self.draw_point(p, mode=mode, brush=brush)
+                        else:
+                            self.draw_point(p, mode=mode)
+            #                 self.canvas[x, y] = j+1
+            #         plt.style.use('fivethirtyeight')
+
+
+#         pendulums
+        if cmap == 'random':
+            cmap = random.choice(self.cmaps)
+        plot_args = dict(X=np.flip(self.canvas.T, axis=0), interpolation='none', cmap=cmap, **kwargs)
+        if axis:
+            P = axis.imshow(**plot_args)
+        else:
+            plt.style.use('classic')
+            P = plt.imshow(**plot_args)
+            plt.grid('off')
+        if discard:
+            self.clear()
+        if clip:
+            self.canvas = np.clip(self.canvas, *clip)
         return P
 #         return self
 
