@@ -1,6 +1,7 @@
 version: "3"
 default_badges:
 	colab: true
+	binder: true
 services:
   fastai: &fastai
     restart: unless-stopped
