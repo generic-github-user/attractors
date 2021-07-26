@@ -23,6 +23,14 @@ class Attractor:
     def __init__(self):
         pass
 
+# Cell
+
+class IteratedFunctionSystem(Attractor):
+    def __init__(self):
+        pass
+
+# Cell
+
 @nb.njit
 def rotation_matrix(a):
     sin = np.sin(a)
@@ -171,7 +179,7 @@ class RouletteCurve(Attractor):
 #             theta = 1 * self.speeds
                 rMatrix = rMatrices[l]
 #                 rMatrix = np.array(rMatrix)#.swapaxes(0,2)
-                offsets = self.center if l == 0 else last[l-1]#.copy() #?
+                offsets = self.center if l == 0 else self.pivots[l-1]#.copy() #?
 #                 for f in list(range(l, num_pivots)):
     #                 print(s, rMatrix)
         #             print(self.pivots[:-1].shape)
@@ -192,7 +200,7 @@ class RouletteCurve(Attractor):
                 self.angles[l:] += self.speeds[l]
                 if clip:
                     self.angles[l:] %= 2 * math.pi
-                self.angles_.append(self.angles.copy())
+#                 self.angles_.append(self.angles.copy())
 
     #             self.points.append(np.clip(self.pivots[-1], 0, np.array(self.canvas.shape)))
 #     sequencemethod
