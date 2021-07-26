@@ -171,6 +171,28 @@ class RouletteCurve(Attractor):
             start=self.start,
             points=self.points
         )
+
+    def simulate_accelerated(self, steps, duration=None):
+        """
+        A faster (but less dynamic) version of `simulate` based on Numba. The actual computation is offloaded to a simplified, strongly typed global function. This method is several times faster than `simulate`, especially for more complex `Attractor`s.
+        """
+        start_time = time.time()
+        sim_args = dict(
+            **self.get_state(),
+            steps=steps,
+            clip=True
+        )
+        if duration:
+            while (time.time() - start_time) < duration:
+                self.start = self.pivots.copy()
+                new_points = simulate_accelerated(**sim_args)
+                self.points = np.append(self.points, new_points.copy(), axis=0)
+#                 why does refreshing these change the pattern? (m=2)
+                sim_args = dict(**self.get_state(), steps=steps, clip=True)
+        else:
+            self.points = simulate_accelerated(**sim_args)
+
+        return self
         rMatrices = []
         for s in self.speeds:
 #             theta = 1 * self.speeds[l]
