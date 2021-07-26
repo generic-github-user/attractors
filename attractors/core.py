@@ -215,7 +215,21 @@ class RouletteCurve(Attractor):
         return self
 
 #     @nb.jit(forceobj=True)
-    def render(self, recenter=True, zoom=None, mode='dist'):
+    def render(self, discard=False, clip=False, axis=None, recenter=True, zoom=None, mode='line', blending='add', hist_args={}, cmap='random', point_value=1, falloff=3, **kwargs):
+        """
+        Render an image from the list of points stored in the class instance.
+
+        - `discard`: `boolean`; if `True`, clear this `Attractor`'s points after rendering to free up memory
+        - `axis`: A Matplotlib axis to render the finished image to (if one is not provided, it will be created)
+        - `zoom`: A scaling factor by which to resize points relative to the `center` before rendering
+        - `mode`: `str`, one of `pixel`, `dist`/`brush`, `line`, or `hist`
+        - `blending`: `str`, one of `set`, `add`, or `mul`; how the new pixel value (while rendering a point) should be combined with the current one
+        - `cmap`: `random` or a Matplotlib colormap; the colormap to pass to `imshow` - if `random`, one will be selected from the sequential colormaps listed in `RouletteCurve().cmaps`
+        - `point_value`
+        - `**kwargs`
+        """
+
+        self.points = self.points[1:]
         cshape = np.array(self.canvas.shape)
         self.offset = cshape / 2
         if not self.live_rendering:# and (self.points):
