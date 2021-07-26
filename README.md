@@ -6,6 +6,14 @@
 
 Clone this repository and install with pip or another package manager. Alternatively, just clone/download the repo and use a relative import to include the scripts in your project.
 
+## Dependencies
+
+- Numba
+- NumPy
+- Matplotlib
+- SciPy (optional, only needed for image postprocessing)
+- nbdev (if building from source/developing)
+
 ## Usage
 
 `attractors` tries to conform to the principle of least astonishment wherever possible (and variable names, classes, parameters etc. aim to be readable), so using the tools should be fairly intuitive.
@@ -30,7 +38,7 @@ R.simulate_accelerated(steps=10000).render(mode='hist', hist_args=dict(bins=150)
 
 
 
-![png](docs/images/output_6_1.png)
+![png](docs/images/output_8_1.png)
 
 
 Other rendering modes are available; `line` will trace between each generated point.
@@ -47,7 +55,7 @@ RouletteCurve(num_sections=2).simulate_accelerated(steps=200).render(mode='line'
 
 
 
-![png](docs/images/output_8_1.png)
+![png](docs/images/output_10_1.png)
 
 
 A softer render can be achieved using `dist` (and an optional `falloff` value that corresponds to the norm order when generating the brush).
@@ -71,5 +79,5 @@ RouletteCurve(num_sections=3).simulate_accelerated(steps=10000).render(mode='dis
 
 
 
-![png](docs/images/output_10_2.png)
+![png](docs/images/output_12_2.png)
 
