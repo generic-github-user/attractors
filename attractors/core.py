@@ -103,6 +103,15 @@ class RouletteCurve(Attractor):
 
     @nb.jit(forceobj=True)
     def simulate(self, steps=1, clip=True):
+    def get_state(self):
+        return dict(
+            speeds=self.speeds,
+            pivots=self.pivots,
+            center=self.center,
+            angles=self.angles,
+            start=self.start,
+            points=self.points
+        )
         rMatrices = []
         for s in self.speeds:
 #             theta = 1 * self.speeds[l]
