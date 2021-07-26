@@ -206,13 +206,17 @@ class RouletteCurve(Attractor):
         - `live_rendering`: Not yet documented
         """
         self.live_rendering = live_rendering
+        start_time = time.time()
         rMatrices = []
         for s in self.speeds:
 #             theta = 1 * self.speeds[l]
             rMatrices.append(rotation_matrix(s))
-
-        for s in range(steps):
-            last = self.pivots.copy()
+        print(duration)
+#         for s in range(steps):
+        assert steps or duration, 'Either the number of steps to simulate or the length of time to run the simulation for must be provided.'
+        s = 0
+        while (s < steps if steps else True):
+#             last = self.pivots.copy()
 #             for l in list(range(len(self.pivots)))[::-1]:
             gamma = 0
             num_pivots = len(self.pivots)
@@ -251,8 +255,20 @@ class RouletteCurve(Attractor):
 #                 print(p, prev)
                 self.pivots[p] = rotate(self.start[p], self.center, self.angles[p]) + prev
                 prev = self.pivots[p]
-            self.pivots_.append(self.pivots.copy())
-            self.points.append(self.pivots[-1].copy())
+
+            if self.live_rendering:
+                self.draw_point(self.pivots[-1].copy(), 'pixel')
+            else:
+#                 self.pivots_.append(self.pivots.copy())
+#                 self.points.append(self.pivots[-1].copy())
+#                 self.points = np.concatenate([self.points, self.pivots[-1].copy()[np.newaxis, ...]], axis=0)
+                self.points = np.append(self.points, self.pivots[-1].copy()[np.newaxis, ...], axis=0)
+
+            if render_each is not None:
+                if s % render_each == 0:
+                    self.render(**render_settings)
+        self.N = s
+        return self
         return self
 
 #     @nb.jit(forceobj=True)
