@@ -56,6 +56,12 @@ def rotate(a, b, t):
 
 @nb.njit
 def simulate_accelerated(speeds, pivots, center, angles, start, points, steps=100, clip=True):
+    """
+    Efficiently simulate a system of rotating segments joined by pivots using Numba to JIT-compile operations on NumPy arrays.
+
+    - `steps`: integer >=1; the number of timesteps to simulate
+    - `clip`: `boolean`; whether to limit the maximum angle of each section (if `True`, the values will wrap around to 0; defaults to `True`)
+    """
 #     todo: reuse code
     rMatrices = []
     for s in speeds:
