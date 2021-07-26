@@ -94,6 +94,12 @@ class RouletteCurve(Attractor):
             'YlOrBr', 'YlOrRd', 'OrRd', 'PuRd', 'RdPu', 'BuPu',
             'GnBu', 'PuBu', 'YlGnBu', 'PuBuGn', 'BuGn', 'YlGn']
 
+    def clear(self):
+        """
+        Remove all generated points from this `Attractor`
+        """
+        self.points = np.zeros([1, 2])
+        return self
 
     @nb.jit(forceobj=True)
     def simulate(self, steps=1, clip=True):
