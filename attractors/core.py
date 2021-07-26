@@ -27,6 +27,35 @@ def rotate(a, b, t):
 #         return (rMatrix @ (a - b)) + b
     return (t @ (a - b)) + b
 
+# Cell
+
+@nb.njit
+def simulate_accelerated(speeds, pivots, center, angles, start, points, steps=100, clip=True):
+#     todo: reuse code
+    rMatrices = []
+    for s in speeds:
+        rMatrices.append(rotation_matrix(s))
+    num_pivots = len(pivots)
+    for s in range(steps):
+        for l in list(range(num_pivots)):
+            rMatrix = rMatrices[l]
+            offsets = center if l == 0 else pivots[l-1]
+            angles[l:] += speeds[l]
+            if clip:
+                angles[l:] %= 2 * math.pi
+        prev = rotate(start[0], center, angles[0])
+        for p in range(1, num_pivots):
+            pivots[p] = rotate(start[p], center, angles[p]) + prev
+            prev = pivots[p]
+#         if self.live_rendering:
+#             self.draw_point(self.pivots[-1].copy(), 'pixel')
+#         else:
+        points = np.append(points, np.expand_dims(pivots[-1], axis=0), axis=0)
+    return points
+# dynamic wrappers for Numba functions
+
+# Cell
+
 # @nb.jit
 class RouletteCurve(Attractor):
     def __init__(self, center=[0, 0], num_sections=4, lengths=None, speeds=None, random_distribution='uniform'):
