@@ -119,6 +119,9 @@ class RouletteCurve(Attractor):
     @nb.jit(forceobj=True)
     def simulate(self, steps=1, clip=True):
     def get_state(self):
+        """
+        Internal/helper function; gets current values of this instance's speeds, pivots, angles, etc. as a dictionary (mainly for use in typed functions like simulate_accelerated)
+        """
         return dict(
             speeds=self.speeds,
             pivots=self.pivots,
