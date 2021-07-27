@@ -61,6 +61,8 @@ def simulate_accelerated(speeds, pivots, center, angles, start, points, steps=10
 
     - `steps`: integer >=1; the number of timesteps to simulate
     - `clip`: `boolean`; whether to limit the maximum angle of each section (if `True`, the values will wrap around to 0; defaults to `True`)
+
+    Returns an `ndarray` of the generated points
     """
 #     todo: reuse code across this function and the other simulate function
 
@@ -104,6 +106,8 @@ def line(start, stop, bg, width=1., quality=5.):
     -`bg` (background): `ndarray`; the array to draw the line onto
     -`width`: `int` or `float` >= 1; the thickness of the line
     -`quality`: `int` or `float` >= 1; the number of points to draw for each unit of distance between the points
+
+    Returns the modified `bg` array with the line drawn
     """
 
 #     if bg is None:
@@ -141,6 +145,8 @@ class RouletteCurve(Attractor):
         -`lengths`: A `list`/`tuple`/`ndarray` of `float`s or `int`s > 0; length of each arm in n-dimensional Euclidian space
         -`speeds`: A `list`/`tuple`/`ndarray` of `float`s or `int`s; how quickly each arm rotates (note that negative values may be used for counterclockwise rotation, and 0 may be used for arms that do not rotate)
         -`random_distribution`: `'uniform'` or `'normal'`; what distribution to draw the lengths and speeds from if they are not provided
+
+        Returns a `RouletteCurve` instance.
         """
 
         super().__init__()
@@ -184,6 +190,8 @@ class RouletteCurve(Attractor):
     def clear(self):
         """
         Remove all generated points from this `Attractor`
+
+        Returns the class instance (a `RouletteCurve` object).
         """
         self.points = np.zeros([1, 2])
         return self
@@ -191,6 +199,8 @@ class RouletteCurve(Attractor):
     def get_state(self):
         """
         Internal/helper function; gets current values of this instance's speeds, pivots, angles, etc. as a dictionary (mainly for use in typed functions like simulate_accelerated)
+
+        Returns a `dict`
         """
         return dict(
             speeds=self.speeds,
@@ -204,6 +214,8 @@ class RouletteCurve(Attractor):
     def simulate_accelerated(self, steps, duration=None):
         """
         A faster (but less dynamic) version of `simulate` based on Numba. The actual computation is offloaded to a simplified, strongly typed global function. This method is several times faster than `simulate`, especially for more complex `Attractor`s.
+
+        Returns the class instance (a `RouletteCurve` object).
         """
         assert steps or duration
         start_time = time.time()
@@ -236,6 +248,8 @@ class RouletteCurve(Attractor):
         - `duration`: `float` or `int` >0; the maximum length of time, in seconds, to run the simulation for; if `steps` is not provided, the simulation will run until this amount of time has elapsed
         - `timecheck_frequency`: Not yet documented
         - `live_rendering`: Not yet documented
+
+        Returns the class instance (a `RouletteCurve` object).
         """
 
         self.live_rendering = live_rendering
@@ -326,6 +340,8 @@ class RouletteCurve(Attractor):
         Apply transformations to a point to prepare it for rendering.
 
         -p: The point to transform
+
+        Returns the transformed point
         """
 
         p = p.astype(float)
@@ -344,6 +360,8 @@ class RouletteCurve(Attractor):
         -mode: See the `mode` parameter from `render`
         -blending: See the `blending` parameter from `render`
         -brush: An `ndarray`; the brush to apply at each point
+
+        Returns `self` (the class instance; a `RouletteCurve` object).
         """
 
         if type(p) is int:
