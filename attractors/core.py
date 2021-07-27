@@ -118,12 +118,15 @@ class RouletteCurve(Attractor):
         super().__init__()
         self.random_distribution = getattr(np.random, random_distribution)
         self.rd = self.random_distribution
+        assert center
         self.center = np.array(center, dtype=float)
         self.rank = self.center.size
 #         use rank?
         if lengths is None:
+            assert num_sections
             lengths = np.random.uniform(-2, 2, num_sections)
         if speeds is None:
+            assert num_sections
             speeds = np.random.normal(0, 2, num_sections)
         self.lengths = RouletteCurve.randomize_list(lengths).astype(float)
         self.speeds = RouletteCurve.randomize_list(speeds).astype(float)
@@ -174,6 +177,7 @@ class RouletteCurve(Attractor):
         """
         A faster (but less dynamic) version of `simulate` based on Numba. The actual computation is offloaded to a simplified, strongly typed global function. This method is several times faster than `simulate`, especially for more complex `Attractor`s.
         """
+        assert steps or duration
         start_time = time.time()
         sim_args = dict(
             **self.get_state(),
@@ -209,12 +213,16 @@ class RouletteCurve(Attractor):
         self.live_rendering = live_rendering
         start_time = time.time()
         rMatrices = []
+        assert self.speeds
         for s in self.speeds:
 #             theta = 1 * self.speeds[l]
             rMatrices.append(rotation_matrix(s))
         print(duration)
 #         for s in range(steps):
         assert steps or duration, 'Either the number of steps to simulate or the length of time to run the simulation for must be provided.'
+        if duration:
+            assert duration > 0
+            assert isinstance(duration, (int, float))
         s = 0
         while (s < steps if steps else True):
 #             last = self.pivots.copy()
@@ -258,7 +266,7 @@ class RouletteCurve(Attractor):
                 prev = self.pivots[p]
 
             if self.live_rendering:
-                self.draw_point(self.pivots[-1].copy(), 'pixel')
+                self.draw_point(self.pivots[-1].copy(), mode='pixel')
             else:
 #                 self.pivots_.append(self.pivots.copy())
 #                 self.points.append(self.pivots[-1].copy())
@@ -266,7 +274,10 @@ class RouletteCurve(Attractor):
                 self.points = np.append(self.points, self.pivots[-1].copy()[np.newaxis, ...], axis=0)
 
             if render_each is not None:
+                assert isinstance(render_each, int)
+                assert render_each >= 1
                 if s % render_each == 0:
+                    assert render_settings is none or isinstance(render_settings, dict)
                     self.render(**render_settings)
 
             if (duration is not None) and s % timecheck_frequency == 0:
