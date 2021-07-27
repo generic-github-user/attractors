@@ -329,29 +329,38 @@ class RouletteCurve(Attractor):
         - `**kwargs`
         """
 
+        assert mode in ['hist', 'dist', 'brush', 'pixel', 'line']
+        assert len(self.points) >= 1
         self.points = self.points[1:]
         cshape = np.array(self.canvas.shape)
         self.offset = cshape / 2
         if not self.live_rendering:# and (self.points):
             if zoom is None:
                 zoom = np.min(cshape / np.max(np.abs(self.points), axis=0)) * 0.5
+#             else:
+            assert isinstance(zoom, (int, float))
             self.zoom = zoom
 #         for p in self.points.copy():
         if mode == 'dist':
 #             grid = np.stack(np.meshgrid([np.arange(5.)]*2))
             grid = np.mgrid[0:5, 0:5]
+            assert isinstance(falloff, int) and falloff >= 1
             brush = 1 / np.linalg.norm(grid - 2.5, axis=0, ord=falloff)
             print(brush)
 
         if not self.live_rendering:
             if mode == 'hist':
+                assert hist_args is None or isinstance(hist_args, dict)
                 self.canvas = np.histogram2d(*np.array(self.points).T, **hist_args)[0]
+                assert isinstance(point_value, (int, float))
 #                 self.canvas *= point_value
                 if blending == 'set':
     #                 self.canvas = np.power(self.canvas, 0)
                     self.canvas[self.canvas != 0] = point_value
                 elif blending == 'mul':
                     self.canvas = point_value ** self.canvas
+                else:
+                    assert blending == 'add'
             else:
                 if mode in ['line']:
                     for i in range(1, len(self.points)):
@@ -371,6 +380,9 @@ class RouletteCurve(Attractor):
 #         pendulums
         if cmap == 'random':
             cmap = random.choice(self.cmaps)
+        else:
+            assert (isinstance(cmap, str) and cmap in self.cmaps) or (isinstance(plt.cm.colors.Colormap) or cmap in plt.colormaps())
+
         plot_args = dict(X=np.flip(self.canvas.T, axis=0), interpolation='none', cmap=cmap, **kwargs)
         if axis:
             P = axis.imshow(**plot_args)
@@ -378,13 +390,18 @@ class RouletteCurve(Attractor):
             plt.style.use('classic')
             P = plt.imshow(**plot_args)
             plt.grid('off')
+
         if discard:
             self.clear()
         if clip:
+            assert len(clip) == 2
+            assert isinstance(clip, (np.ndarray, list, tuple))
             self.canvas = np.clip(self.canvas, *clip)
+
         return P
 #         return self
 
     @staticmethod
     def randomize_list(L):
+        assert isinstance(L, (np.ndarray, list, tuple))
         return np.array([self.rd(*x) if type(x) in [list, tuple] else x for x in L])
