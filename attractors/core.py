@@ -96,6 +96,16 @@ def simulate_accelerated(speeds, pivots, center, angles, start, points, steps=10
 
 # @nb.jit
 def line(start, stop, bg, width=1., quality=5.):
+    """
+    Draw a line onto an array using NumPy.
+
+    -`start`: `ndarray`; the start point
+    -`stop`: `ndarray`; the end point
+    -`bg` (background): `ndarray`; the array to draw the line onto
+    -`width`: `int` or `float` >= 1; the thickness of the line
+    -`quality`: `int` or `float` >= 1; the number of points to draw for each unit of distance between the points
+    """
+
 #     if bg is None:
 #         bg = np.zeros((50, 50))
 #     start = np.array(start, dtype=float)
