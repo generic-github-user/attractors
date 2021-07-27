@@ -62,7 +62,14 @@ def simulate_accelerated(speeds, pivots, center, angles, start, points, steps=10
     - `steps`: integer >=1; the number of timesteps to simulate
     - `clip`: `boolean`; whether to limit the maximum angle of each section (if `True`, the values will wrap around to 0; defaults to `True`)
     """
-#     todo: reuse code
+#     todo: reuse code across this function and the other simulate function
+
+#     assert type(steps) is int
+#     assert isinstance(steps, int)
+#     assert steps >= 1
+#     assert len(speeds) > 0
+#     assert len(pivots) > 0
+
     rMatrices = []
     for s in speeds:
         rMatrices.append(rotation_matrix(s))
@@ -93,6 +100,9 @@ def line(start, stop, bg, width=1., quality=5.):
 #         bg = np.zeros((50, 50))
 #     start = np.array(start, dtype=float)
 #     stop = np.array(stop, dtype=float)
+    assert quality >= 1
+    assert width > 0
+
     quality *= np.linalg.norm(np.subtract(stop, start))
     lin = np.linspace(0, 1, round(quality))
 #     coords = np.stack([[np.interp(lin, [0,1], [0, p[i]]) for p in [start, stop]] for i in range(0, 2)]).T
