@@ -281,7 +281,7 @@ nb_path: "00_attractor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="line" class="doc_header"><code>line</code><a href="https://github.com/generic-github-user/attractors/tree/main/attractors/core.py#L91" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>line</code>(<strong><code>start</code></strong>, <strong><code>stop</code></strong>, <strong><code>bg</code></strong>, <strong><code>width</code></strong>=<em><code>1.0</code></em>, <strong><code>quality</code></strong>=<em><code>5.0</code></em>)</p>
+<h4 id="line" class="doc_header"><code>line</code><a href="https://github.com/generic-github-user/attractors/tree/main/attractors/core.py#L98" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>line</code>(<strong><code>start</code></strong>, <strong><code>stop</code></strong>, <strong><code>bg</code></strong>, <strong><code>width</code></strong>=<em><code>1.0</code></em>, <strong><code>quality</code></strong>=<em><code>5.0</code></em>)</p>
 </blockquote>
 
 </div>
@@ -339,7 +339,7 @@ nb_path: "00_attractor.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="RouletteCurve" class="doc_header"><code>class</code> <code>RouletteCurve</code><a href="https://github.com/generic-github-user/attractors/tree/main/attractors/core.py#L113" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>RouletteCurve</code>(<strong><code>center</code></strong>=<em><code>[0, 0]</code></em>, <strong><code>num_sections</code></strong>=<em><code>4</code></em>, <strong><code>lengths</code></strong>=<em><code>None</code></em>, <strong><code>speeds</code></strong>=<em><code>None</code></em>, <strong><code>random_distribution</code></strong>=<em><code>'uniform'</code></em>) :: <a href="/attractors/attractor.html#Attractor"><code>Attractor</code></a></p>
+<h2 id="RouletteCurve" class="doc_header"><code>class</code> <code>RouletteCurve</code><a href="https://github.com/generic-github-user/attractors/tree/main/attractors/core.py#L123" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>RouletteCurve</code>(<strong><code>center</code></strong>=<em><code>[0, 0]</code></em>, <strong><code>num_sections</code></strong>=<em><code>4</code></em>, <strong><code>lengths</code></strong>=<em><code>None</code></em>, <strong><code>speeds</code></strong>=<em><code>None</code></em>, <strong><code>random_distribution</code></strong>=<em><code>'uniform'</code></em>) :: <a href="/attractors/attractor.html#Attractor"><code>Attractor</code></a></p>
 </blockquote>
 
 </div>
@@ -355,6 +355,56 @@ nb_path: "00_attractor.ipynb"
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">colors</span><span class="o">.</span><span class="n">Colormap</span><span class="p">(</span><span class="s1">&#39;cool&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;matplotlib.colors.Colormap at 0x23dba31bd60&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
 
 </div>
     {% endraw %}
@@ -866,29 +916,10 @@ nb_path: "00_attractor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">RouletteCurve</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="mi">1</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>                            Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-14-67fae096fe55&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>RouletteCurve<span class="ansi-yellow-intense-fg ansi-bold">.</span>rotate<span class="ansi-yellow-intense-fg ansi-bold">(</span>np<span class="ansi-yellow-intense-fg ansi-bold">.</span>array<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-cyan-intense-fg ansi-bold">5</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> np<span class="ansi-yellow-intense-fg ansi-bold">.</span>array<span class="ansi-yellow-intense-fg ansi-bold">(</span><span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">,</span> <span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-
-<span class="ansi-red-intense-fg ansi-bold">AttributeError</span>: type object &#39;RouletteCurve&#39; has no attribute &#39;rotate&#39;</pre>
-</div>
-</div>
-
 </div>
 </div>
 
@@ -974,58 +1005,9 @@ nb_path: "00_attractor.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">angles_</span><span class="p">)[:,</span> <span class="mi">2</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">pivots_</span><span class="p">)[:,</span><span class="mi">2</span><span class="p">,:]</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">pivots_</span><span class="p">)[:</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">R</span><span class="o">.</span><span class="n">points</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># plt.plot(np.array(R.pivots_)[:,2,:].sum(axis=1))</span>
+<span class="c1"># np.array(R.pivots_)[:5,1,0]</span>
+<span class="c1"># R.points</span>
 </pre></div>
 
     </div>
