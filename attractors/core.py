@@ -125,6 +125,7 @@ def line(start, stop, bg, width=1., quality=5.):
         x, y = pos#.astype(int)
         w = width/2
         bg[round(x-w):round(x+w), round(y-w):round(y+w)] += 1
+
     return bg
 
 # Cell
@@ -134,7 +135,14 @@ class RouletteCurve(Attractor):
     def __init__(self, center=[0, 0], num_sections=4, lengths=None, speeds=None, random_distribution='uniform'):
         """
         Create a new `RouletteCurve` object. This subclasses `Attractor` and describes a process where one or more line segments, connected end-to-end, rotate continuously about their pivots/endpoints. The length of each line segment and the speed at which it rotates are adjustable parameters.
+
+        -`center`: A `list`/`tuple`/`ndarray` of `float`s or `int`s; the pivot point/base of the first arm
+        -`num_sections`: `int` >= 1; the number of arms/sections used to simulate the system. This will be used to randomly generate the lengths and speeds of each arm if those parameters are not provided
+        -`lengths`: A `list`/`tuple`/`ndarray` of `float`s or `int`s > 0; length of each arm in n-dimensional Euclidian space
+        -`speeds`: A `list`/`tuple`/`ndarray` of `float`s or `int`s; how quickly each arm rotates (note that negative values may be used for counterclockwise rotation, and 0 may be used for arms that do not rotate)
+        -`random_distribution`: `'uniform'` or `'normal'`; what distribution to draw the lengths and speeds from if they are not provided
         """
+
         super().__init__()
         self.random_distribution = getattr(np.random, random_distribution)
         self.rd = self.random_distribution
