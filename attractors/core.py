@@ -288,6 +288,7 @@ class RouletteCurve(Attractor):
 #         if recenter:
         p += self.offset
         p = np.clip(p, 0, np.array(self.canvas.shape)-1)
+        assert isinstance(p, np.ndarray)
         return p
 
     def draw_point(self, p, mode, blending='add', brush=None):
@@ -295,6 +296,8 @@ class RouletteCurve(Attractor):
             prev = self.points[p-1]
             prev = self.transform_point(prev)
             p = self.points[p]
+        else:
+            assert isinstance(p, (np.ndarray, list, tuple))
         p = self.transform_point(p)
         w, h = self.canvas.shape
         x, y = p.astype(int)
@@ -303,11 +306,18 @@ class RouletteCurve(Attractor):
                 self.canvas[x, y] = 1
             elif blending == 'add':
                 self.canvas[x, y] += 1
+#                 TODO: add multiply mode
+            else:
+                raise ValueError
         elif mode in ['dist', 'brush']:
+            assert isinstance(brush, np.ndarray)
             x, y = np.clip(x, 5, w-6), np.clip(y, 5, h-6)
             self.canvas[x-2:x+3, y-2:y+3] += brush
         elif mode in ['line']:
+            assert prev is not None
             self.canvas = line(prev, p, self.canvas)
+        else:
+            raise ValueError
         return self
 
 #     @nb.jit(forceobj=True)
