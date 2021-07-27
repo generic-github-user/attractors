@@ -314,6 +314,12 @@ class RouletteCurve(Attractor):
         return self
 
     def transform_point(self, p):
+        """
+        Apply transformations to a point to prepare it for rendering.
+
+        -p: The point to transform
+        """
+
         p = p.astype(float)
         p *= self.zoom
 #         if recenter:
