@@ -323,6 +323,15 @@ class RouletteCurve(Attractor):
         return p
 
     def draw_point(self, p, mode, blending='add', brush=None):
+        """
+        Draw a point on this `RouletteCurve`'s canvas.
+
+        -p: The point to render
+        -mode: See the `mode` parameter from `render`
+        -blending: See the `blending` parameter from `render`
+        -brush: An `ndarray`; the brush to apply at each point
+        """
+
         if type(p) is int:
             prev = self.points[p-1]
             prev = self.transform_point(prev)
