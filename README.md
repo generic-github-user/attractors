@@ -14,6 +14,10 @@ Clone this repository and install with pip or another package manager. Alternati
 - SciPy (optional, only needed for image postprocessing)
 - nbdev (if building from source/developing)
 
+## Documentation
+
+A brief overview of the project's main features is given below. For a more comprehensive API reference, documentation of specific classes, and functions, etc., see https://generic-github-user.github.io/attractors/.
+
 ## Usage
 
 `attractors` tries to conform to the principle of least astonishment wherever possible (and variable names, classes, parameters etc. aim to be readable), so using the tools should be fairly intuitive.
@@ -38,7 +42,7 @@ R.simulate_accelerated(steps=10000).render(mode='hist', hist_args=dict(bins=150)
 
 
 
-![png](docs/images/output_8_1.png)
+![png](docs/images/output_10_1.png)
 
 
 Other rendering modes are available; `line` will trace between each generated point.
@@ -55,7 +59,7 @@ RouletteCurve(num_sections=2).simulate_accelerated(steps=200).render(mode='line'
 
 
 
-![png](docs/images/output_10_1.png)
+![png](docs/images/output_12_1.png)
 
 
 A softer render can be achieved using `dist` (and an optional `falloff` value that corresponds to the norm order when generating the brush).
@@ -79,5 +83,10 @@ RouletteCurve(num_sections=3).simulate_accelerated(steps=10000).render(mode='dis
 
 
 
-![png](docs/images/output_12_2.png)
+![png](docs/images/output_14_2.png)
+
+
+## License
+
+This project is licensed under [GPL v2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html). The license file may be viewed [here](https://github.com/generic-github-user/attractors/blob/main/LICENSE.md).
 
