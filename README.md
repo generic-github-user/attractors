@@ -90,3 +90,6 @@ RouletteCurve(num_sections=3).simulate_accelerated(steps=10000).render(mode='dis
 
 This project is licensed under [GPL v2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html). The license file may be viewed [here](https://github.com/generic-github-user/attractors/blob/main/LICENSE.md).
 
+## Tools
+
+`attractors` is built using [nbdev](https://nbdev.fast.ai/) and [Jupyter Lab](https://jupyter.org/), two open-source projects whose developers are owed much credit for making the development process highly efficient and enjoyable.
